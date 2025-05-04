@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import StudentForm from '../components/StudentForm';
-import StudentService from '../services/StudentService';
+import {
+  getAllStudents,
+  createStudent,
+  updateStudent,
+  deleteStudent
+} from '../services/StudentService';
 
 function StudentsPage({ subjects, setSubjects }) {
   const [students, setStudents] = useState([]);
   const [editingStudentId, setEditingStudentId] = useState(null);
 
   useEffect(() => {
-    StudentService.getAll()
+    getAllStudents()
       .then(response => setStudents(response.data))
       .catch(err => console.error("Greška prilikom učitavanja studenata:", err));
   }, []);
 
   const handleAddStudent = (newStudent) => {
-    StudentService.create(newStudent)
+    createStudent(newStudent)
       .then(response => {
         setStudents(prev => [...prev, response.data]);
       })
@@ -23,7 +28,7 @@ function StudentsPage({ subjects, setSubjects }) {
   const handleEditStudent = (updatedData) => {
     const id = editingStudentId;
 
-    StudentService.update(id, updatedData)
+    updateStudent(id, updatedData)
       .then(response => {
         setStudents(prev => prev.map(s =>
           s.id === id ? response.data : s
@@ -53,7 +58,7 @@ function StudentsPage({ subjects, setSubjects }) {
       return;
     }
 
-    StudentService.delete(id)
+    deleteStudent(id)
       .then(() => {
         setStudents(prev => prev.filter(s => s.id !== id));
       })
@@ -93,4 +98,3 @@ function StudentsPage({ subjects, setSubjects }) {
 }
 
 export default StudentsPage;
-

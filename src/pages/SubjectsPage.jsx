@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import SubjectForm from '../components/SubjectForm';
-import SubjectService from '../services/SubjectService';
+import {
+  getAllSubjects,
+  createSubject,
+  updateSubject,
+  deleteSubject
+} from '../services/SubjectService';
 
 function SubjectsPage({ students, setStudents }) {
   const [subjects, setSubjects] = useState([]);
   const [editingSubjectId, setEditingSubjectId] = useState(null);
 
   useEffect(() => {
-    SubjectService.getAll()
+    getAllSubjects()
       .then(res => setSubjects(res.data))
       .catch(err => console.error('Greška pri dohvatanju predmeta:', err));
   }, []);
 
   const handleAddSubject = (newSubject) => {
-    SubjectService.create(newSubject)
+    createSubject(newSubject)
       .then(res => {
         const novi = res.data;
         setSubjects(prev => [...prev, novi]);
@@ -45,7 +50,7 @@ function SubjectsPage({ students, setStudents }) {
       return;
     }
 
-    SubjectService.delete(subjectId)
+    deleteSubject(subjectId)
       .then(() => {
         setSubjects(prev => prev.filter(p => p.id !== subjectId));
       })
@@ -59,7 +64,7 @@ function SubjectsPage({ students, setStudents }) {
   const handleEditSubmit = (updatedData) => {
     const subjectId = editingSubjectId;
 
-    SubjectService.update(subjectId, updatedData)
+    updateSubject(subjectId, updatedData)
       .then(() => {
         setSubjects(prev =>
           prev.map(sub =>
