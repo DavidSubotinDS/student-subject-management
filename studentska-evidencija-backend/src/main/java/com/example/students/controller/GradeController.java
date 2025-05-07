@@ -1,19 +1,18 @@
 package com.example.students.controller;
 
 import com.example.students.model.Grade;
-import com.example.students.model.Student;
-import com.example.students.model.Subject;
 import com.example.students.repository.GradeRepository;
 import com.example.students.repository.StudentRepository;
 import com.example.students.repository.SubjectRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/grades")
+@CrossOrigin(origins = "http://localhost:3000")
 public class GradeController {
 
     @Autowired
@@ -27,37 +26,45 @@ public class GradeController {
 
     @GetMapping("/subject/{subjectId}")
     public List<Grade> getGradesBySubject(@PathVariable Long subjectId) {
-        Subject subject = subjectRepository.findById(subjectId)
-                .orElseThrow(() -> new RuntimeException("Predmet nije pronađen"));
-        return gradeRepository.findBySubject(subject);
+        return gradeRepository.findBySubject(
+                subjectRepository.findById(subjectId)
+                        .orElseThrow(() -> new RuntimeException("Predmet sa ID " + subjectId + " nije pronađen"))
+        );
     }
 
     @PostMapping
-    public Grade createGrade(@RequestBody Grade grade) {
-        if (grade.getVrednost() < 6 || grade.getVrednost() > 10) {
-            throw new IllegalArgumentException("Ocena mora biti između 6 i 10.");
-        }
+    public Grade createGrade(@Valid @RequestBody Grade grade) {
+        validateGrade(grade);
         return gradeRepository.save(grade);
     }
 
     @PutMapping("/{id}")
-    public Grade updateGrade(@PathVariable Long id, @RequestBody Grade updated) {
+    public Grade updateGrade(@PathVariable Long id, @Valid @RequestBody Grade updatedGrade) {
         Grade existing = gradeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Ocena nije pronađena"));
+                .orElseThrow(() -> new RuntimeException("Ocena sa ID " + id + " nije pronađena"));
 
-        if (updated.getVrednost() < 6 || updated.getVrednost() > 10) {
-            throw new IllegalArgumentException("Ocena mora biti između 6 i 10.");
-        }
-
-        existing.setVrednost(updated.getVrednost());
-        existing.setStudent(updated.getStudent());
-        existing.setSubject(updated.getSubject());
+        validateGrade(updatedGrade);
+        existing.setVrednost(updatedGrade.getVrednost());
+        existing.setStudent(updatedGrade.getStudent());
+        existing.setSubject(updatedGrade.getSubject());
 
         return gradeRepository.save(existing);
     }
 
     @DeleteMapping("/{id}")
     public void deleteGrade(@PathVariable Long id) {
+        if (!gradeRepository.existsById(id)) {
+            throw new RuntimeException("Ocena sa ID " + id + " ne postoji");
+        }
         gradeRepository.deleteById(id);
+    }
+
+    private void validateGrade(Grade grade) {
+        if (!studentRepository.existsById(grade.getStudent().getId())) {
+            throw new IllegalArgumentException("Student ne postoji u bazi");
+        }
+        if (!subjectRepository.existsById(grade.getSubject().getId())) {
+            throw new IllegalArgumentException("Predmet ne postoji u bazi");
+        }
     }
 }

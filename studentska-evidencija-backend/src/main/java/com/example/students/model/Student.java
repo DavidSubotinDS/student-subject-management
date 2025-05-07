@@ -1,60 +1,37 @@
 package com.example.students.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import lombok.*;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Ime je obavezno")
     private String ime;
+
+    @NotBlank(message = "Prezime je obavezno")
     private String prezime;
+
+    @NotBlank(message = "Broj indeksa je obavezan")
+    @Pattern(
+        regexp = "^[A-Z]{2}-\\d{3}-\\d{4}$",
+        message = "Broj indeksa mora biti u formatu XX-000-0000"
+    )
     private String brojIndeksa;
 
-    
-    public Student() {}
+    @NotBlank(message = "Mesto rođenja je obavezno")
+    private String mestoRodjenja;
 
-    public Student(String ime, String prezime, String brojIndeksa) {
-        this.ime = ime;
-        this.prezime = prezime;
-        this.brojIndeksa = brojIndeksa;
-    }
-
-    
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getIme() {
-        return ime;
-    }
-
-    public void setIme(String ime) {
-        this.ime = ime;
-    }
-
-    public String getPrezime() {
-        return prezime;
-    }
-
-    public void setPrezime(String prezime) {
-        this.prezime = prezime;
-    }
-
-    public String getBrojIndeksa() {
-        return brojIndeksa;
-    }
-
-    public void setBrojIndeksa(String brojIndeksa) {
-        this.brojIndeksa = brojIndeksa;
-    }
+    @NotBlank(message = "Datum rođenja je obavezan")
+    private String datumRodjenja;
 }
