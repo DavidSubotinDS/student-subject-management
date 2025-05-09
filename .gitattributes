@@ -1,0 +1,15 @@
+# Force Unix-style line endings
+* text=auto eol=lf
+
+# Mark backend code as Java
+*.java linguist-language=Java
+
+# Mark frontend code as JavaScript/JSX
+*.js linguist-language=JavaScript
+*.jsx linguist-language=JavaScript
+*.json linguist-language=JSON
+*.css linguist-language=CSS
+*.html linguist-language=HTML
+
+# Ignore IDE-specific metadata
+*.iml binary
