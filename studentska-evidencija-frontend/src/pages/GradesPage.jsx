@@ -6,13 +6,8 @@ import {
   deleteGrade
 } from '../services/GradeService';
 
-import {
-  getAllSubjects
-} from '../services/SubjectService';
-
-import {
-  getAllStudents
-} from '../services/StudentService';
+import { getAllSubjects } from '../services/SubjectService';
+import { getAllStudents } from '../services/StudentService';
 
 import GradeForm from '../components/GradeForm';
 
@@ -36,7 +31,10 @@ function GradesPage() {
   useEffect(() => {
     if (selectedSubjectId) {
       getGradesBySubject(selectedSubjectId)
-        .then(res => setGrades(res.data))
+        .then(res => {
+          console.log('Ocene:', res.data);
+          setGrades(res.data);
+        })
         .catch(err => console.error('Greška pri dohvatanju ocena:', err));
     } else {
       setGrades([]);
@@ -44,17 +42,25 @@ function GradesPage() {
   }, [selectedSubjectId]);
 
   const handleAddGrade = (gradeData) => {
-    addGrade(gradeData)
-      .then(() => getGradesBySubject(selectedSubjectId))
+    addGrade({
+      vrednost: gradeData.vrednost,
+      studentId: gradeData.studentId,
+      subjectId: gradeData.subjectId
+    })
+      .then(() => getGradesBySubject(gradeData.subjectId))
       .then(res => setGrades(res.data))
       .catch(err => console.error('Greška pri dodavanju ocene:', err));
   };
 
   const handleUpdateGrade = (gradeId, gradeData) => {
-    updateGrade(gradeId, gradeData)
+    updateGrade(gradeId, {
+      vrednost: gradeData.vrednost,
+      studentId: gradeData.studentId,
+      subjectId: gradeData.subjectId
+    })
       .then(() => {
         setEditingGrade(null);
-        return getGradesBySubject(selectedSubjectId);
+        return getGradesBySubject(gradeData.subjectId);
       })
       .then(res => setGrades(res.data))
       .catch(err => console.error('Greška pri izmeni ocene:', err));
@@ -67,9 +73,10 @@ function GradesPage() {
       .catch(err => console.error('Greška pri brisanju ocene:', err));
   };
 
-  const getStudentName = (id) => {
-    const s = students.find(st => st.id === id);
-    return s ? `${s.ime} ${s.prezime}` : 'Nepoznat student';
+  const getStudentName = (student) => {
+    return student
+      ? `${student.ime} ${student.prezime} (${student.brojIndeksa})`
+      : 'Nepoznat student';
   };
 
   return (
@@ -88,7 +95,16 @@ function GradesPage() {
         <GradeForm
           subjectId={selectedSubjectId}
           students={students}
-          initialData={editingGrade}
+          initialData={
+            editingGrade
+              ? {
+                  id: editingGrade.id,
+                  studentId: editingGrade.student?.id,
+                  subjectId: selectedSubjectId,
+                  vrednost: editingGrade.vrednost
+                }
+              : null
+          }
           onSubmit={editingGrade ? (data) => handleUpdateGrade(editingGrade.id, data) : handleAddGrade}
           onCancel={() => setEditingGrade(null)}
         />
@@ -98,7 +114,7 @@ function GradesPage() {
       <ul>
         {grades.map(g => (
           <li key={g.id}>
-            {getStudentName(g.studentId)} — Ocena: {g.vrednost}
+            {getStudentName(g.student)} — Ocena: {g.vrednost}
             <button onClick={() => setEditingGrade(g)} style={{ marginLeft: '10px' }}>Izmeni</button>
             <button onClick={() => handleDeleteGrade(g.id)} style={{ marginLeft: '10px' }}>Obriši</button>
           </li>
@@ -109,4 +125,3 @@ function GradesPage() {
 }
 
 export default GradesPage;
-

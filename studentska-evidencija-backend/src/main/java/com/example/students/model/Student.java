@@ -23,10 +23,6 @@ public class Student {
     private String prezime;
 
     @NotBlank(message = "Broj indeksa je obavezan")
-    @Pattern(
-        regexp = "^[A-Z]{2}-\\d{3}-\\d{4}$",
-        message = "Broj indeksa mora biti u formatu XX-000-0000"
-    )
     private String brojIndeksa;
 
     @NotBlank(message = "Mesto rođenja je obavezno")

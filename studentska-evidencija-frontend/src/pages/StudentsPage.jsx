@@ -7,15 +7,14 @@ import {
   deleteStudent
 } from '../services/StudentService';
 
-function StudentsPage({ subjects, setSubjects }) {
-  const [students, setStudents] = useState([]);
+function StudentsPage({ students, setStudents, subjects, setSubjects }) {
   const [editingStudentId, setEditingStudentId] = useState(null);
 
   useEffect(() => {
     getAllStudents()
       .then(response => setStudents(response.data))
       .catch(err => console.error("Greška prilikom učitavanja studenata:", err));
-  }, []);
+  }, [setStudents]);
 
   const handleAddStudent = (newStudent) => {
     createStudent(newStudent)

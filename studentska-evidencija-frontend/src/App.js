@@ -5,12 +5,7 @@ import SubjectsPage from './pages/SubjectsPage';
 import GradesPage from './pages/GradesPage';
 
 function App() {
-  const [students, setStudents] = useState([
-    { id: 1, ime: 'Ana', prezime: 'Anić', brojIndeksa: 'IT1/2021', predmeti: [] },
-    { id: 2, ime: 'Milan', prezime: 'Milić', brojIndeksa: 'IT2/2021', predmeti: [] },
-    { id: 3, ime: 'Jovana', prezime: 'Jović', brojIndeksa: 'IT3/2021', predmeti: [] },
-  ]);
-
+  const [students, setStudents] = useState([]);
   const [subjects, setSubjects] = useState([]);
   const [grades, setGrades] = useState([]);
 
@@ -19,12 +14,17 @@ function App() {
       <div style={{ padding: '10px', borderBottom: '1px solid #ccc' }}>
         <Link to="/" style={{ marginRight: '10px' }}>Studenti</Link>
         <Link to="/subjects" style={{ marginRight: '10px' }}>Predmeti</Link>
-        <Link to="/grades">Ocene</Link> {}
+        <Link to="/grades">Ocene</Link>
       </div>
 
       <Routes>
         <Route path="/" element={
-          <StudentsPage students={students} setStudents={setStudents} />
+          <StudentsPage
+            students={students}
+            setStudents={setStudents}
+            subjects={subjects}
+            setSubjects={setSubjects}
+          />
         } />
         <Route path="/subjects" element={
           <SubjectsPage
@@ -48,4 +48,3 @@ function App() {
 }
 
 export default App;
-

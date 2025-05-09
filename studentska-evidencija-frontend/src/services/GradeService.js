@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-const BASE_URL = '/api/ocene';
+const BASE_URL = 'http://localhost:8080/api/grades';
 
 export const getGradesBySubject = (subjectId) =>
-  axios.get(`${BASE_URL}/predmet/${subjectId}`);
+  axios.get(`${BASE_URL}/subject/${subjectId}`);
 
 export const addGrade = (grade) =>
   axios.post(BASE_URL, grade);

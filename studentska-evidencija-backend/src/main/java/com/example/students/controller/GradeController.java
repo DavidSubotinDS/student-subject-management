@@ -1,6 +1,9 @@
 package com.example.students.controller;
 
 import com.example.students.model.Grade;
+import com.example.students.model.GradeRequest;
+import com.example.students.model.Student;
+import com.example.students.model.Subject;
 import com.example.students.repository.GradeRepository;
 import com.example.students.repository.StudentRepository;
 import com.example.students.repository.SubjectRepository;
@@ -26,27 +29,41 @@ public class GradeController {
 
     @GetMapping("/subject/{subjectId}")
     public List<Grade> getGradesBySubject(@PathVariable Long subjectId) {
-        return gradeRepository.findBySubject(
-                subjectRepository.findById(subjectId)
-                        .orElseThrow(() -> new RuntimeException("Predmet sa ID " + subjectId + " nije pronađen"))
-        );
+        Subject subject = subjectRepository.findById(subjectId)
+                .orElseThrow(() -> new RuntimeException("Predmet sa ID " + subjectId + " nije pronađen"));
+        return gradeRepository.findBySubject(subject);
     }
 
     @PostMapping
-    public Grade createGrade(@Valid @RequestBody Grade grade) {
-        validateGrade(grade);
+    public Grade createGrade(@Valid @RequestBody GradeRequest request) {
+        Student student = studentRepository.findById(request.getStudentId())
+                .orElseThrow(() -> new RuntimeException("Student sa ID " + request.getStudentId() + " nije pronađen"));
+
+        Subject subject = subjectRepository.findById(request.getSubjectId())
+                .orElseThrow(() -> new RuntimeException("Predmet sa ID " + request.getSubjectId() + " nije pronađen"));
+
+        Grade grade = new Grade();
+        grade.setVrednost(request.getVrednost());
+        grade.setStudent(student);
+        grade.setSubject(subject);
+
         return gradeRepository.save(grade);
     }
 
     @PutMapping("/{id}")
-    public Grade updateGrade(@PathVariable Long id, @Valid @RequestBody Grade updatedGrade) {
+    public Grade updateGrade(@PathVariable Long id, @Valid @RequestBody GradeRequest request) {
         Grade existing = gradeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Ocena sa ID " + id + " nije pronađena"));
 
-        validateGrade(updatedGrade);
-        existing.setVrednost(updatedGrade.getVrednost());
-        existing.setStudent(updatedGrade.getStudent());
-        existing.setSubject(updatedGrade.getSubject());
+        Student student = studentRepository.findById(request.getStudentId())
+                .orElseThrow(() -> new RuntimeException("Student sa ID " + request.getStudentId() + " nije pronađen"));
+
+        Subject subject = subjectRepository.findById(request.getSubjectId())
+                .orElseThrow(() -> new RuntimeException("Predmet sa ID " + request.getSubjectId() + " nije pronađen"));
+
+        existing.setVrednost(request.getVrednost());
+        existing.setStudent(student);
+        existing.setSubject(subject);
 
         return gradeRepository.save(existing);
     }
@@ -57,14 +74,5 @@ public class GradeController {
             throw new RuntimeException("Ocena sa ID " + id + " ne postoji");
         }
         gradeRepository.deleteById(id);
-    }
-
-    private void validateGrade(Grade grade) {
-        if (!studentRepository.existsById(grade.getStudent().getId())) {
-            throw new IllegalArgumentException("Student ne postoji u bazi");
-        }
-        if (!subjectRepository.existsById(grade.getSubject().getId())) {
-            throw new IllegalArgumentException("Predmet ne postoji u bazi");
-        }
     }
 }
