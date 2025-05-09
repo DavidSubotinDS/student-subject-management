@@ -1,70 +1,68 @@
-# Getting Started with Create React App
+🎓 Studentska Evidencija — Full Stack Aplikacija
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Ova aplikacija omogućava evidenciju studenata, predmeta i ocena. Projekat koristi React za frontend i Spring Boot za backend, sa MySQL bazom podataka.
+📁 Struktura projekta
 
-## Available Scripts
+student-subject-management/
+├── studentska-evidencija-frontend    # React aplikacija
+├── studentska-evidencija-backend     # Spring Boot backend
+├── run-fullstack.bat                 # Batch fajl za paralelno pokretanje
 
-In the project directory, you can run:
+🚀 Pokretanje lokalno
+🔧 1. Backend (Spring Boot)
 
-### `npm start`
+Pređi u folder studentska-evidencija-backend i pokreni komandu:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+./mvnw spring-boot:run
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Backend će biti dostupan na: http://localhost:8080
+🌐 2. Frontend (React)
 
-### `npm test`
+Pređi u folder studentska-evidencija-frontend i izvrši:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+npm install
+npm start
 
-### `npm run build`
+Frontend će biti dostupan na: http://localhost:3000
+🏁 Alternativa: Pokreni sve jednim klikom (Windows)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Pokreni run-fullstack.bat iz root direktorijuma koji automatski startuje i frontend i backend u paralelnim prozorima.
+🌍 Deploy priprema
+🛠 Build frontend:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+cd studentska-evidencija-frontend
+npm run build
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+🔄 Kopiraj u backend:
 
-### `npm run eject`
+Kopiraj sadržaj build/ foldera u:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+studentska-evidencija-backend/src/main/resources/static/
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+🧱 Build backend:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+cd studentska-evidencija-backend
+./mvnw clean install
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+▶️ Pokreni .jar fajl:
 
-## Learn More
+java -jar target/evidencija-0.0.1-SNAPSHOT.jar
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+🧰 Tehnologije
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+    ✅ React 18
 
-### Code Splitting
+    ✅ Spring Boot 3.4.5
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+    ✅ Java 17
 
-### Analyzing the Bundle Size
+    ✅ MySQL 8
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+    ✅ Maven
 
-### Making a Progressive Web App
+    ✅ Axios, ESLint, H2 (dev)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+👤 Autor
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+David Subotin
+📎 GitHub: DavidSubotinDS
