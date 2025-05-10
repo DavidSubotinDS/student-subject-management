@@ -14,10 +14,11 @@ student-subject-management/
 
 ### Opcija 1: Pokretanje preko `.bat` fajla (Windows)
 
-1. Otvori `run-fullstack.bat` iz root direktorijuma (`student-subject-management/`).
-2. Batch fajl će automatski pokrenuti backend i frontend u dva odvojena terminal prozora.
-3. Backend će biti dostupan na: [http://localhost:8080](http://localhost:8080)
-4. Frontend će biti dostupan na: [http://localhost:3000](http://localhost:3000)
+Otvorite `run-fullstack.bat` iz root direktorijuma (`student-subject-management/`).  
+Batch fajl će automatski pokrenuti backend i frontend u dva odvojena terminal prozora.
+
+- Backend će biti dostupan na: [http://localhost:8080](http://localhost:8080)  
+- Frontend će biti dostupan na: [http://localhost:3000](http://localhost:3000)
 
 ### Opcija 2: Ručno pokretanje
 
@@ -27,16 +28,14 @@ student-subject-management/
 cd studentska-evidencija-backend
 ./mvnw spring-boot:run
 
-    Zahteva Javu (verzija 17+) i Maven (lokalno ili wrapper).
-
+Zahteva instaliranu Javu (verzija 17+) i Maven (lokalno ili preko wrapper-a).
 Frontend (React)
 
 cd studentska-evidencija-frontend
 npm install
 npm start
 
-    Zahteva Node.js (verzija 18+) i npm.
-
+Zahteva Node.js (verzija 18+) i npm.
 Deploy priprema
 Build frontend:
 
@@ -45,7 +44,7 @@ npm run build
 
 Kopiranje u backend:
 
-Kopiraj sadržaj build/ foldera u:
+Kopirati sadržaj build/ foldera u:
 
 studentska-evidencija-backend/src/main/resources/static/
 
@@ -70,7 +69,7 @@ Tehnologije
 
     Maven
 
-    Axios, ESLint, H2 (dev)
+    Axios, ESLint
 
 Autor
 
