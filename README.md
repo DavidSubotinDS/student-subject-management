@@ -4,11 +4,12 @@ Ova aplikacija omogućava evidenciju studenata, predmeta i ocena. Projekat koris
 
 ## Struktura projekta
 
+```
 student-subject-management/
-├── studentska-evidencija-frontend # React aplikacija
-├── studentska-evidencija-backend # Spring Boot backend
-├── run-fullstack.bat # Batch fajl za paralelno pokretanje
-
+├── studentska-evidencija-frontend     # React aplikacija
+├── studentska-evidencija-backend      # Spring Boot backend
+├── run-fullstack.bat                  # Batch fajl za paralelno pokretanje
+```
 
 ## Pokretanje aplikacije lokalno
 
@@ -27,51 +28,67 @@ Batch fajl će automatski pokrenuti backend i frontend u dva odvojena terminal p
 ```bash
 cd studentska-evidencija-backend
 ./mvnw spring-boot:run
+```
 
 Zahteva instaliranu Javu (verzija 17+) i Maven (lokalno ili preko wrapper-a).
-Frontend (React)
 
+#### Frontend (React)
+
+```bash
 cd studentska-evidencija-frontend
 npm install
 npm start
+```
 
 Zahteva Node.js (verzija 18+) i npm.
-Deploy priprema
-Build frontend:
 
+---
+
+## Deploy priprema
+
+### Build frontend:
+
+```bash
 cd studentska-evidencija-frontend
 npm run build
+```
 
-Kopiranje u backend:
+### Kopiranje u backend:
 
-Kopirati sadržaj build/ foldera u:
+Kopirati sadržaj `build/` foldera u:
 
+```
 studentska-evidencija-backend/src/main/resources/static/
+```
 
-Build backend:
+### Build backend:
 
+```bash
 cd studentska-evidencija-backend
 ./mvnw clean install
+```
 
-Pokretanje .jar fajla:
+### Pokretanje `.jar` fajla:
 
+```bash
 java -jar target/evidencija-0.0.1-SNAPSHOT.jar
+```
 
-Tehnologije
+---
 
-    React 18
+## Tehnologije
 
-    Spring Boot 3.4.5
+- React 18  
+- Spring Boot 3.4.5  
+- Java 17  
+- MySQL 8  
+- Maven  
+- Axios, ESLint  
 
-    Java 17
+---
 
-    MySQL 8
+## Autor
 
-    Maven
+David Subotin  
+GitHub: [DavidSubotinDS](https://github.com/DavidSubotinDS)
 
-    Axios, ESLint
-
-Autor
-
-David Subotin
-GitHub: DavidSubotinDS
