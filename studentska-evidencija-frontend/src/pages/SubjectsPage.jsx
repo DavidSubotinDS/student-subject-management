@@ -13,14 +13,23 @@ function SubjectsPage({ students, setStudents }) {
 
   useEffect(() => {
     getAllSubjects()
-      .then(res => setSubjects(res.data))
+      .then(res => {
+        const safeSubjects = res.data.map(s => ({
+          ...s,
+          upisaniStudenti: s.upisaniStudenti || []
+        }));
+        setSubjects(safeSubjects);
+      })
       .catch(err => console.error('Greška pri dohvatanju predmeta:', err));
   }, []);
 
   const handleAddSubject = (newSubject) => {
     createSubject(newSubject)
       .then(res => {
-        const novi = res.data;
+        const novi = {
+          ...res.data,
+          upisaniStudenti: res.data.upisaniStudenti || []
+        };
         setSubjects(prev => [...prev, novi]);
 
         setStudents(prev => prev.map(student => {
@@ -68,7 +77,9 @@ function SubjectsPage({ students, setStudents }) {
       .then(() => {
         setSubjects(prev =>
           prev.map(sub =>
-            sub.id === subjectId ? { ...sub, ...updatedData } : sub
+            sub.id === subjectId
+              ? { ...sub, ...updatedData, upisaniStudenti: updatedData.upisaniStudenti || [] }
+              : sub
           )
         );
 
@@ -144,7 +155,7 @@ function SubjectsPage({ students, setStudents }) {
             <br />
             Studenti:
             <ul>
-              {sub.upisaniStudenti.length > 0 ? (
+              {(sub.upisaniStudenti?.length > 0) ? (
                 sub.upisaniStudenti.map(sid => {
                   const student = students.find(s => s.id === sid);
                   return <li key={sid}>{student?.ime} {student?.prezime}</li>;
@@ -153,7 +164,7 @@ function SubjectsPage({ students, setStudents }) {
                 <li>nema upisanih studenata</li>
               )}
             </ul>
-            {sub.upisaniStudenti.length === 0 && editingSubjectId !== sub.id && (
+            {(sub.upisaniStudenti?.length === 0 && editingSubjectId !== sub.id) && (
               <button onClick={() => handleDeleteSubject(sub.id)}>Obriši predmet</button>
             )}
           </li>

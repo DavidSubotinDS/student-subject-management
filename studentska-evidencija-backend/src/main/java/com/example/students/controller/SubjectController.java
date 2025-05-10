@@ -23,6 +23,9 @@ public class SubjectController {
 
     @PostMapping
     public Subject createSubject(@Valid @RequestBody Subject subject) {
+        if (subject.getUpisaniStudenti() == null) {
+            subject.setUpisaniStudenti(List.of());
+        }
         return subjectRepository.save(subject);
     }
 
@@ -31,6 +34,11 @@ public class SubjectController {
         if (!subjectRepository.existsById(id)) {
             throw new RuntimeException("Predmet sa ID " + id + " ne postoji");
         }
+
+        if (updatedSubject.getUpisaniStudenti() == null) {
+            updatedSubject.setUpisaniStudenti(List.of());
+        }
+
         updatedSubject.setId(id);
         return subjectRepository.save(updatedSubject);
     }

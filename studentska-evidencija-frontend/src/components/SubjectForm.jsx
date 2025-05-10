@@ -38,7 +38,11 @@ function SubjectForm({ initialData, students, onSubmit, onCancel }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(formData);
+    const validForm = {
+      ...formData,
+      upisaniStudenti: formData.upisaniStudenti || [] // sigurnost da nije null
+    };
+    onSubmit(validForm);
     setFormData({ naziv: '', profesor: '', upisaniStudenti: [] });
   };
 

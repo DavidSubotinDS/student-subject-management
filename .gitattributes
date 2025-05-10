@@ -1,15 +1,24 @@
-# Force Unix-style line endings
+# === KONTROLA LINE ENDINGS I DEKODIRANJE ===
 * text=auto eol=lf
 
-# Mark backend code as Java
+# === JEZICI I DETEKCIJA ===
 *.java linguist-language=Java
-
-# Mark frontend code as JavaScript/JSX
 *.js linguist-language=JavaScript
 *.jsx linguist-language=JavaScript
 *.json linguist-language=JSON
 *.css linguist-language=CSS
 *.html linguist-language=HTML
+*.properties linguist-language=INI
 
-# Ignore IDE-specific metadata
+# === BINARNI I IDE FAJLOVI ===
 *.iml binary
+*.jar binary
+*.class binary
+studentska-evidencija-backend/target/** binary
+studentska-evidencija-frontend/build/** binary
+
+# === UTF-8 ENKODIRANJE PO DEFAULTU ===
+*.java text working-tree-encoding=UTF-8
+*.js text working-tree-encoding=UTF-8
+*.html text working-tree-encoding=UTF-8
+*.css text working-tree-encoding=UTF-8
