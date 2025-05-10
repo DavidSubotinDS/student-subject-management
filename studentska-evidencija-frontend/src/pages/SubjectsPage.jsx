@@ -33,10 +33,11 @@ function SubjectsPage({ students, setStudents }) {
         setSubjects(prev => [...prev, novi]);
 
         setStudents(prev => prev.map(student => {
+          const updatedPredmeti = Array.isArray(student.predmeti) ? student.predmeti : [];
           if (newSubject.upisaniStudenti.includes(student.id)) {
             return {
               ...student,
-              predmeti: [...student.predmeti, {
+              predmeti: [...updatedPredmeti, {
                 id: novi.id,
                 naziv: novi.naziv,
                 profesor: novi.profesor
@@ -50,9 +51,10 @@ function SubjectsPage({ students, setStudents }) {
   };
 
   const handleDeleteSubject = (subjectId) => {
-    const isEnrolled = students.some(student =>
-      student.predmeti.some(predmet => predmet.id === subjectId)
-    );
+    const isEnrolled = students.some(student => {
+      const predmeti = Array.isArray(student.predmeti) ? student.predmeti : [];
+      return predmeti.some(predmet => predmet.id === subjectId);
+    });
 
     if (isEnrolled) {
       alert("Ne možete obrisati predmet jer je neki student upisan na njega.");
@@ -85,13 +87,14 @@ function SubjectsPage({ students, setStudents }) {
 
         setStudents(prev =>
           prev.map(student => {
-            const wasEnrolled = student.predmeti.some(p => p.id === subjectId);
+            const predmeti = Array.isArray(student.predmeti) ? student.predmeti : [];
+            const wasEnrolled = predmeti.some(p => p.id === subjectId);
             const shouldBeEnrolled = updatedData.upisaniStudenti.includes(student.id);
 
             if (!wasEnrolled && shouldBeEnrolled) {
               return {
                 ...student,
-                predmeti: [...student.predmeti, {
+                predmeti: [...predmeti, {
                   id: subjectId,
                   naziv: updatedData.naziv,
                   profesor: updatedData.profesor
@@ -102,14 +105,14 @@ function SubjectsPage({ students, setStudents }) {
             if (wasEnrolled && !shouldBeEnrolled) {
               return {
                 ...student,
-                predmeti: student.predmeti.filter(p => p.id !== subjectId)
+                predmeti: predmeti.filter(p => p.id !== subjectId)
               };
             }
 
             if (wasEnrolled && shouldBeEnrolled) {
               return {
                 ...student,
-                predmeti: student.predmeti.map(p =>
+                predmeti: predmeti.map(p =>
                   p.id === subjectId ? { ...p, naziv: updatedData.naziv, profesor: updatedData.profesor } : p
                 )
               };
