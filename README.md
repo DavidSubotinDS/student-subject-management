@@ -1,68 +1,78 @@
-🎓 Studentska Evidencija — Full Stack Aplikacija
+# Studentska Evidencija — Full Stack Aplikacija
 
 Ova aplikacija omogućava evidenciju studenata, predmeta i ocena. Projekat koristi React za frontend i Spring Boot za backend, sa MySQL bazom podataka.
-📁 Struktura projekta
+
+## Struktura projekta
 
 student-subject-management/
-├── studentska-evidencija-frontend    # React aplikacija
-├── studentska-evidencija-backend     # Spring Boot backend
-├── run-fullstack.bat                 # Batch fajl za paralelno pokretanje
+├── studentska-evidencija-frontend # React aplikacija
+├── studentska-evidencija-backend # Spring Boot backend
+├── run-fullstack.bat # Batch fajl za paralelno pokretanje
 
-🚀 Pokretanje lokalno
-🔧 1. Backend (Spring Boot)
 
-Pređi u folder studentska-evidencija-backend i pokreni komandu:
+## Pokretanje aplikacije lokalno
 
+### Opcija 1: Pokretanje preko `.bat` fajla (Windows)
+
+1. Otvori `run-fullstack.bat` iz root direktorijuma (`student-subject-management/`).
+2. Batch fajl će automatski pokrenuti backend i frontend u dva odvojena terminal prozora.
+3. Backend će biti dostupan na: [http://localhost:8080](http://localhost:8080)
+4. Frontend će biti dostupan na: [http://localhost:3000](http://localhost:3000)
+
+### Opcija 2: Ručno pokretanje
+
+#### Backend (Spring Boot)
+
+```bash
+cd studentska-evidencija-backend
 ./mvnw spring-boot:run
 
-Backend će biti dostupan na: http://localhost:8080
-🌐 2. Frontend (React)
+    Zahteva Javu (verzija 17+) i Maven (lokalno ili wrapper).
 
-Pređi u folder studentska-evidencija-frontend i izvrši:
+Frontend (React)
 
+cd studentska-evidencija-frontend
 npm install
 npm start
 
-Frontend će biti dostupan na: http://localhost:3000
-🏁 Alternativa: Pokreni sve jednim klikom (Windows)
+    Zahteva Node.js (verzija 18+) i npm.
 
-Pokreni run-fullstack.bat iz root direktorijuma koji automatski startuje i frontend i backend u paralelnim prozorima.
-🌍 Deploy priprema
-🛠 Build frontend:
+Deploy priprema
+Build frontend:
 
 cd studentska-evidencija-frontend
 npm run build
 
-🔄 Kopiraj u backend:
+Kopiranje u backend:
 
 Kopiraj sadržaj build/ foldera u:
 
 studentska-evidencija-backend/src/main/resources/static/
 
-🧱 Build backend:
+Build backend:
 
 cd studentska-evidencija-backend
 ./mvnw clean install
 
-▶️ Pokreni .jar fajl:
+Pokretanje .jar fajla:
 
 java -jar target/evidencija-0.0.1-SNAPSHOT.jar
 
-🧰 Tehnologije
+Tehnologije
 
-    ✅ React 18
+    React 18
 
-    ✅ Spring Boot 3.4.5
+    Spring Boot 3.4.5
 
-    ✅ Java 17
+    Java 17
 
-    ✅ MySQL 8
+    MySQL 8
 
-    ✅ Maven
+    Maven
 
-    ✅ Axios, ESLint, H2 (dev)
+    Axios, ESLint, H2 (dev)
 
-👤 Autor
+Autor
 
 David Subotin
-📎 GitHub: DavidSubotinDS
+GitHub: DavidSubotinDS
